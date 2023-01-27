@@ -18,6 +18,8 @@ check = False
 for i in range(N):
     check_case.append([case[i], value_case[case[i]]])
 
+print(check_case)
+
 for i in range(N):
     for j in range(i+1, N):
         if check_case[i][1] < check_case[j][1]:

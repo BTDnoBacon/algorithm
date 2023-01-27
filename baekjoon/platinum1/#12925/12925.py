@@ -4,21 +4,19 @@ input = sys.stdin.readline
 
 T = int(input())
 
+def cut(A):
+    return [[A[0][0]%1000,A[0][1]%1000],[A[1][0]%1000,A[1][1]%1000]]
+linear = [[6, -4], [1, 0]]
 def generate_func(n):
-    if n == 0:
-        return 2
-    elif n == 1:
-        return 6
-    
-    linear = [[6, -4], [1, 0]]
-    new_linear = [[6, -4], [1, 0]]
-    for _ in range(n - 2):
-        new_linear[0] = [new_linear[0][0]*linear[0][0] + new_linear[0][1]*linear[1][0],new_linear[0][0]*linear[0][1]]
-        new_linear[1] = [new_linear[1][0]*linear[0][0], 0]
+    if n == 1:
+        return linear
+    r = generate_func(n//2)
 
+    if n % 2 == 0:
+        return cut([[r[0][0]*r[0][0] + r[0][1]*r[1][0], r[0][0]*r[0][1] + r[0][1]*r[1][1]],[r[1][0]*r[0][0] + r[1][1]*r[1][0], r[1][0]*r[0][1] + r[1][1]*r[1][1]]]) 
+    else:
+        return cut([[6*(r[0][0]*r[0][0] + r[0][1]*r[1][0])+r[0][0]*r[0][1] + r[0][1]*r[1][1],(-4)*(r[0][0]*r[0][0] + r[0][1]*r[1][0])],[6*(r[1][0]*r[0][0] + r[1][1]*r[1][0])+r[1][0]*r[0][1] + r[1][1]*r[1][1], (-4)*(r[1][0]*r[0][0] + r[1][1]*r[1][0])]])
 
-
-    return new_linear[0][0]*6 + new_linear[0][1]*2
 
 # print(generate_func(5))
 
@@ -26,14 +24,6 @@ def generate_func(n):
 
 for i in range(1, T+1):
     print(f'Case #{i}:', end=" ")
-    dummy = (generate_func(int(input())) - 1) % 1000
-    if dummy == 0:
-        print('000')
-    elif dummy < 10:
-        print('00', end='')
-        print(dummy)
-    elif dummy < 100:
-        print('0', end='')
-        print(dummy)
-    else:
-        print(dummy)
+    dummy = generate_func(int(input())-1)[0]
+    result = (dummy[0]*6 + dummy[1]*2 - 1) % 1000
+    print(str(result).zfill(3))
