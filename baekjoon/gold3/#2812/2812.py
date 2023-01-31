@@ -1,5 +1,5 @@
 import sys
-sys.stdin = open('input.txt', 'r')
+# sys.stdin = open('input.txt', 'r')
 input = sys.stdin.readline
 
 N, K = map(int, input().split())
@@ -8,46 +8,30 @@ case = list(map(int, list(input().rstrip())))
 # print(case)
 
 stack = []
-count = 0
 for i in range(N):
-    item = case[i]
-
-    while stack:
-        if count == K:
+    
+    while K > 0:
+        if len(stack) == 0:
+            stack.append(case[i])
             break
-        
-
-        if stack[-1][0] < item:
-            temp = count + stack[-1][1]
-            if temp > count:
-                stack[-1][1] -= 1
-                count += 1
-                continue
-            else:
-                count = temp
-                stack.pop()
-                continue
-        elif stack[-1][0] == item:
-            stack[-1][1] += 1
+        elif stack[-1] < case[i]:
+            stack.pop()
+            K = K - 1
+            continue
+        else:
+            stack.append(case[i])
             break
-        elif stack[-1][0] > item:
-            if count < K and i == N-1:
-                # count += 1
-                break
-            else:
-                stack.append([item, 1])
-                break
 
-    # print(stack)
-    if len(stack) == 0 or count == K:
-        stack.append([item, 1])
+    if K == 0 :
+        stack.append(case[i])
 
 # print(stack)
-if N != K:
-    result = str()
-    for row in stack:
-        result += str(row[0])*row[1]
-
-    print(result)
+if K == 0:
+    result = "".join(list(map(str, stack)))
 else:
-    print(0)
+    result = "".join(list(map(str, stack[:-K])))
+
+
+print(result)
+
+    
