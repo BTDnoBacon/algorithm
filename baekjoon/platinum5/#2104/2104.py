@@ -1,25 +1,30 @@
 import sys
-sys.stdin = open('input.txt', 'r')
+# sys.stdin = open('input.txt', 'r')
 input = sys.stdin.readline
 
 N = int(input())
 
 case = list(map(int,input().split()))
-# print(N)
-# print(case)
+
 
 max_value = 0
-stack = []
+stack = [[case[0], case[0]]]
 
-for i in range(N):
-    # print(stack)
-    if len(stack) == 0:
-        stack.append([case[i], case[i]])
+for i in range(1, N):
+    temp = 0
+    while stack and case[i] < stack[-1][0]:
+        temp += stack[-1][1]
+        max_value = max(max_value, stack[-1][0] * temp)
+        stack.pop()
+    temp += case[i]
+    stack.append([case[i], temp])
+        
 
-    while stack:
-        if stack[-1][0] > case[i]:
-           max(max_value, stack[-1][0] * stack[-1][-1])
-            
+temp = 0
+while stack:
+    temp += stack[-1][1]
+    max_value = max(max_value, stack[-1][0] * temp)
+    stack.pop()
 
 
 print(max_value)
