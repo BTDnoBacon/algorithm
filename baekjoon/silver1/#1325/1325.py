@@ -14,28 +14,30 @@ for _ in range(M):
     x, y = list(map(int, input().split()))
     case[y-1][x-1] = 1
 
+queue = collections.deque()
+
 # sum_case = [sum(case[k]) for k in range(N)]
-top_value = 0
-trust_num = 0
+# top_value = 0
+# trust_num = 0
 
-for i in range(N):
-    trust_num = sum(case[i])
-    if trust_num == 0:
-        continue
-    for j in range(N):
-        if case[i][j] == 0:
-            continue
-        else:
-            trust_num += sum(case[j])
-    if top_value < trust_num:
-        answer_string = f'{i+1}'
-        top_value = trust_num
-    elif top_value == trust_num:
-        answer_string += f' {i+1}'
-    else:
-        pass
+# for i in range(N):
+#     trust_num = sum(case[i])
+#     if trust_num == 0:
+#         continue
+#     for j in range(N):
+#         if case[i][j] == 0:
+#             continue
+#         else:
+#             trust_num += sum(case[j])
+#     if top_value < trust_num:
+#         answer_string = f'{i+1}'
+#         top_value = trust_num
+#     elif top_value == trust_num:
+#         answer_string += f' {i+1}'
+#     else:
+#         pass
 
-print(answer_string)
+# print(answer_string)
 
 # for i in range(N):
 #     trust_num = sum(case[i])
